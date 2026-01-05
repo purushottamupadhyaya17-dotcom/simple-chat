@@ -11,138 +11,151 @@
 
   <!-- ================= STYLES ================= -->
   <style>
-    * { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #0f172a, #020617);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: system-ui, sans-serif;
-      color: #e5e7eb;
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a, #020617);
+  font-family: system-ui, -apple-system, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #e5e7eb;
+}
 
-    .app {
-      width: 100%;
-      max-width: 420px;
-      height: 100%;
-      max-height: 680px;
-      background: rgba(255,255,255,0.06);
-      backdrop-filter: blur(12px);
-      border-radius: 18px;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
-    }
+/* App container */
+.app {
+  width: 100%;
+  max-width: 420px;
+  height: 100vh;
+  max-height: 700px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(14px);
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
 
-    .header {
-      padding: 16px;
-      text-align: center;
-      font-weight: 800;
-      letter-spacing: 1px;
-      background: linear-gradient(135deg, #22d3ee, #6366f1);
-      color: #020617;
-    }
+/* Header */
+.header {
+  padding: 14px;
+  text-align: center;
+  font-weight: 600;
+  background: linear-gradient(135deg, #22d3ee, #6366f1);
+  color: #020617;
+}
 
-    .setup {
-      padding: 14px;
-      display: flex;
-      gap: 8px;
-    }
+/* Name section */
+.name-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 14px;
+}
 
-    .setup input {
-      flex: 1;
-    }
+.name-section input,
+.input-bar input {
+  flex: 1 1 100%;
+  min-width: 0;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+}
 
-    .chat {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
+/* Buttons */
+button {
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: #22d3ee;
+  font-weight: 600;
+  cursor: pointer;
+  color: #020617;
+}
 
-    .hidden { display: none; }
+/* Chat area */
+.chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
 
-    .users {
-      font-size: 12px;
-      padding: 6px 10px;
-      opacity: 0.6;
-    }
+.hidden {
+  display: none;
+}
 
-    .messages {
-      flex: 1;
-      padding: 12px;
-      overflow-y: auto;
-    }
+/* Messages */
+.messages {
+  flex: 1;
+  padding: 14px;
+  overflow-y: auto;
+}
 
-    .bubble {
-      max-width: 75%;
-      padding: 10px 12px;
-      border-radius: 14px;
-      margin-bottom: 10px;
-      animation: fade 0.2s ease;
-    }
+.bubble {
+  max-width: 80%;
+  padding: 10px 12px;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  animation: fadeIn 0.2s ease;
+}
 
-    .me {
-      margin-left: auto;
-      background: linear-gradient(135deg, #22d3ee, #6366f1);
-      color: #020617;
-    }
+.me {
+  margin-left: auto;
+  background: linear-gradient(135deg, #22d3ee, #6366f1);
+  color: #020617;
+}
 
-    .other {
-      background: rgba(255,255,255,0.15);
-    }
+.other {
+  background: rgba(255,255,255,0.15);
+}
 
-    .system {
-      text-align: center;
-      font-size: 12px;
-      opacity: 0.5;
-      margin: 10px 0;
-    }
+/* Name & time */
+.name {
+  font-size: 11px;
+  opacity: 0.7;
+  margin-bottom: 2px;
+}
 
-    .name {
-      font-size: 11px;
-      opacity: 0.7;
-    }
+.time {
+  font-size: 10px;
+  opacity: 0.5;
+  text-align: right;
+  margin-top: 4px;
+}
 
-    .time {
-      font-size: 10px;
-      opacity: 0.5;
-      text-align: right;
-      margin-top: 4px;
-    }
+/* Input bar */
+.input-bar {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(255,255,255,0.08);
+}
 
-    .input-bar {
-      display: flex;
-      gap: 8px;
-      padding: 10px;
-      background: rgba(255,255,255,0.08);
-    }
+/* Laptop enhancement */
+@media (min-width: 768px) {
+  .app {
+    height: 650px;
+  }
+}
 
-    input {
-      padding: 10px;
-      border-radius: 10px;
-      border: none;
-      outline: none;
-      font-size: 14px;
-    }
-
-    button {
-      padding: 10px 14px;
-      border-radius: 10px;
-      border: none;
-      background: #22d3ee;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    @keyframes fade {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
 </head>
 
 <body>
