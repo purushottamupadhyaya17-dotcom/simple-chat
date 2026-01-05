@@ -1,294 +1,250 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Yappr</title>
 
-<style>
-.name-area {
-  display: flex;
-  gap: 8px;
-  padding: 10px;
-}
+  <!-- ===== PWA READY (future) ===== -->
+  <meta name="theme-color" content="#6366f1" />
+  <meta name="description" content="Yappr – real-time chat made simple" />
 
-.input-area {
-  display: flex;
-  gap: 8px;
-  padding: 10px;
-}
-
-input {
-  flex: 1;
-  padding: 10px;
-  border-radius: 12px;
-  border: none;
-  outline: none;
-}
-
-button {
-  padding: 10px 14px;
-  border-radius: 12px;
-  border: none;
-  background: #3b82f6;
-  color: white;
-  cursor: pointer;
-}
-  body {
-    font-family: "Inter", system-ui, sans-serif;
-    background: linear-gradient(135deg, #0f172a, #020617);
-    color: #e5e7eb;
-    display: flex;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-  }
-
-  .app {
-    width: 420px;
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(12px);
-    border-radius: 16px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-  }
-
-  header {
-    padding: 16px;
-    text-align: center;
-    font-weight: 600;
-    letter-spacing: 1px;
-    background: rgba(255,255,255,0.08);
-  }
-
-  #messages {
-    flex: 1;
-    padding: 14px;
-    overflow-y: auto;
-  }
-
-  .bubble {
-    max-width: 75%;
-    padding: 10px 12px;
-    border-radius: 14px;
-    margin-bottom: 10px;
-    animation: fadeIn 0.2s ease;
-  }
-
-  .me {
-    margin-left: auto;
-    background: linear-gradient(135deg, #22d3ee, #6366f1);
-    color: #020617;
-  }
-
-  .other {
-    background: rgba(255,255,255,0.15);
-  }
-
-  .name {
-    font-size: 11px;
-    opacity: 0.7;
-    margin-bottom: 2px;
-  }
-
-  .time {
-    font-size: 10px;
-    opacity: 0.5;
-    text-align: right;
-    margin-top: 4px;
-  }
-
-  form {
-    display: flex;
-    gap: 8px;
-    padding: 12px;
-    background: rgba(255,255,255,0.08);
-  }
-
-  input {
-    flex: 1;
-    padding: 10px;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-  }
-
-  button {
-    padding: 10px 14px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    background: #22d3ee;
-    font-weight: 600;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-</style>
+  <!-- ================= STYLES ================= -->
   <style>
-    * {
-      box-sizing: border-box;
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #0f172a, #020617);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: system-ui, sans-serif;
+      color: #e5e7eb;
     }
 
-   body {
-  margin: 0;
-  background: #0f172a;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  font-family: system-ui;
-}
+    .app {
+      width: 100%;
+      max-width: 420px;
+      height: 100%;
+      max-height: 680px;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(12px);
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    }
 
-.app {
-  width: 420px;
-  height: 600px;
-  background: #020617;
-  color: #e5e7eb;
-  border-radius: 14px;
-  display: flex;
-  flex-direction: column;
-}
+    .header {
+      padding: 16px;
+      text-align: center;
+      font-weight: 800;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #22d3ee, #6366f1);
+      color: #020617;
+    }
 
-.header {
-  padding: 14px;
-  text-align: center;
-  font-weight: bold;
-  background: #1d4ed8;
-}
+    .setup {
+      padding: 14px;
+      display: flex;
+      gap: 8px;
+    }
 
-.name-section {
-  padding: 16px;
-  display: flex;
-  gap: 10px;
-}
+    .setup input {
+      flex: 1;
+    }
 
-.chat {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
+    .chat {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
 
-.hidden {
-  display: none;
-}
+    .hidden { display: none; }
 
-.messages {
-  flex: 1;
-  padding: 10px;
-  overflow-y: auto;
-}
+    .users {
+      font-size: 12px;
+      padding: 6px 10px;
+      opacity: 0.6;
+    }
 
-.input-bar {
-  display: flex;
-  gap: 8px;
-  padding: 10px;
-}
+    .messages {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+    }
 
-.message {
-  max-width: 70%;
-  padding: 8px 12px;
-  margin: 6px 0;
-  border-radius: 12px;
-  font-size: 14px;
-  line-height: 1.4;
-}
+    .bubble {
+      max-width: 75%;
+      padding: 10px 12px;
+      border-radius: 14px;
+      margin-bottom: 10px;
+      animation: fade 0.2s ease;
+    }
 
-.message.me {
-  margin-left: auto;
-  background: #2563eb;
-  color: white;
-  border-bottom-right-radius: 4px;
-}
+    .me {
+      margin-left: auto;
+      background: linear-gradient(135deg, #22d3ee, #6366f1);
+      color: #020617;
+    }
 
-.message.other {
-  margin-right: auto;
-  background: #f3f4f6;
-  color: #111;
-  border-bottom-left-radius: 4px;
-}
+    .other {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .system {
+      text-align: center;
+      font-size: 12px;
+      opacity: 0.5;
+      margin: 10px 0;
+    }
+
+    .name {
+      font-size: 11px;
+      opacity: 0.7;
+    }
+
+    .time {
+      font-size: 10px;
+      opacity: 0.5;
+      text-align: right;
+      margin-top: 4px;
+    }
+
+    .input-bar {
+      display: flex;
+      gap: 8px;
+      padding: 10px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: none;
+      background: #22d3ee;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 
 <body>
   <div class="app">
 
-  <div class="header">
-    Yappr
-  </div>
+    <!-- ===== HEADER ===== -->
+    <div class="header">Yappr</div>
 
-  <!-- Username section -->
-  <div id="nameSection" class="name-section">
-    <input id="usernameInput" placeholder="Enter your name" />
-    <button onclick="setName()">Start Chat</button>
-  </div>
-
-  <!-- Chat section -->
-  <div id="chatSection" class="chat hidden">
-    <div id="messages" class="messages"></div>
-
-    <div class="input-bar">
-      <input id="messageInput" placeholder="Type a message..." />
-      <button onclick="sendMessage()">Send</button>
+    <!-- ===== SETUP (username + room) ===== -->
+    <div id="setup" class="setup">
+      <input id="usernameInput" placeholder="Your name" />
+      <input id="roomInput" placeholder="Room (optional)" />
+      <button onclick="joinChat()">Join</button>
     </div>
+
+    <!-- ===== CHAT ===== -->
+    <div id="chat" class="chat hidden">
+      <div id="users" class="users"></div>
+      <div id="messages" class="messages"></div>
+
+      <div class="input-bar">
+        <input id="messageInput" placeholder="Type a message…" />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+
   </div>
 
-</div>
-
+  <!-- ================= SCRIPT ================= -->
   <script src="/socket.io/socket.io.js"></script>
   <script>
     const socket = io();
-    const messages = document.getElementById("messages");
-    const input = document.getElementById("messageInput");
+
     const usernameInput = document.getElementById("usernameInput");
+    const roomInput = document.getElementById("roomInput");
+    const messageInput = document.getElementById("messageInput");
+    const messages = document.getElementById("messages");
+    const usersDiv = document.getElementById("users");
 
     let username = "";
+    let room = "global";
 
-    function setName() {
-  if (!usernameInput.value.trim()) {
-    alert("Enter your name");
-    return;
-  }
+    function joinChat() {
+      if (!usernameInput.value.trim()) return alert("Enter your name");
 
-  username = usernameInput.value.trim();
+      username = usernameInput.value.trim();
+      room = roomInput.value.trim() || "global";
 
-  document.getElementById("nameSection").style.display = "none";
-  document.getElementById("chatSection").classList.remove("hidden");
+      document.getElementById("setup").classList.add("hidden");
+      document.getElementById("chat").classList.remove("hidden");
 
-  console.log("Username set:", username);
-}
+      socket.emit("join", { username, room });
+    }
 
     function sendMessage() {
-      if (!username) return alert("Set your name first");
-      if (!input.value) return;
+      if (!messageInput.value.trim()) return;
 
-      socket.emit("chat message", {
+      socket.emit("message", {
+        room,
         user: username,
-        text: input.value,
+        text: messageInput.value,
         time: new Date().toLocaleTimeString()
       });
 
-      input.value = "";
+      messageInput.value = "";
     }
 
-    input.addEventListener("keydown", e => {
+    messageInput.addEventListener("keydown", e => {
       if (e.key === "Enter") sendMessage();
     });
 
-    socket.on("chat message", msg => {
+    // ===== Incoming messages =====
+    socket.on("message", msg => {
       const div = document.createElement("div");
       div.className = "bubble " + (msg.user === username ? "me" : "other");
 
       div.innerHTML = `
         <div class="name">${msg.user}</div>
-        <div class="text">${msg.text}</div>
+        <div>${msg.text}</div>
         <div class="time">${msg.time}</div>
       `;
 
       messages.appendChild(div);
       messages.scrollTop = messages.scrollHeight;
+    });
+
+    // ===== System messages =====
+    socket.on("system", text => {
+      const div = document.createElement("div");
+      div.className = "system";
+      div.textContent = text;
+      messages.appendChild(div);
+    });
+
+    // ===== Online users =====
+    socket.on("users", list => {
+      usersDiv.textContent = "Online: " + list.join(", ");
+    });
+
+    // ===== Message history (future persistence) =====
+    socket.on("history", history => {
+      history.forEach(msg => socket.emit("message", msg));
     });
   </script>
 </body>
