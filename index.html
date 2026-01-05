@@ -183,6 +183,14 @@ button {
   <script>
     const socket = io();
 
+    socket.on("connect", () => {
+      console.log("✅ Connected to server with ID:", socket.id);
+});
+
+socket.on("connect_error", err => {
+  console.error("❌ Connection error:", err);
+});
+
     const usernameInput = document.getElementById("usernameInput");
     const roomInput = document.getElementById("roomInput");
     const messageInput = document.getElementById("messageInput");
