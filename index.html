@@ -222,7 +222,7 @@ button {
     });
 
     // ===== Incoming messages =====
-    socket.on("message", msg => {
+    socket.on("chat message", msg => {
       const div = document.createElement("div");
       div.className = "bubble " + (msg.user === username ? "me" : "other");
 
