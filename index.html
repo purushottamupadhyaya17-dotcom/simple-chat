@@ -17,13 +17,12 @@
 
 body {
   margin: 0;
-  min-height: 100vh;
+  height: 100vh;
   background: linear-gradient(135deg, #0f172a, #020617);
   font-family: system-ui, -apple-system, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #e5e7eb;
 }
 
 /* App container */
@@ -33,8 +32,8 @@ body {
   height: 100vh;
   max-height: 700px;
   background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(14px);
-  border-radius: 18px;
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -46,37 +45,20 @@ body {
   padding: 14px;
   text-align: center;
   font-weight: 600;
+  letter-spacing: 1px;
   background: linear-gradient(135deg, #22d3ee, #6366f1);
   color: #020617;
 }
 
-/* Name section */
+/* Name input section */
 .name-section {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 14px;
+  gap: 8px;
+  padding: 12px;
 }
 
-.name-section input,
-.input-bar input {
-  flex: 1 1 100%;
-  min-width: 0;
-  padding: 12px;
-  border-radius: 12px;
-  border: none;
-  outline: none;
-}
-
-/* Buttons */
-button {
-  padding: 12px;
-  border-radius: 12px;
-  border: none;
-  background: #22d3ee;
-  font-weight: 600;
-  cursor: pointer;
-  color: #020617;
+.name-section input {
+  flex: 1;
 }
 
 /* Chat area */
@@ -93,66 +75,78 @@ button {
 /* Messages */
 .messages {
   flex: 1;
-  padding: 14px;
+  padding: 12px;
   overflow-y: auto;
 }
 
+/* Message bubbles */
 .bubble {
-  max-width: 80%;
+  max-width: 75%;
   padding: 10px 12px;
   border-radius: 14px;
   margin-bottom: 10px;
   animation: fadeIn 0.2s ease;
 }
 
-.me {
+.bubble.me {
   margin-left: auto;
   background: linear-gradient(135deg, #22d3ee, #6366f1);
   color: #020617;
 }
 
-.other {
+.bubble.other {
   background: rgba(255,255,255,0.15);
+  color: #e5e7eb;
 }
 
-/* Name & time */
 .name {
   font-size: 11px;
   opacity: 0.7;
-  margin-bottom: 2px;
 }
 
 .time {
   font-size: 10px;
   opacity: 0.5;
   text-align: right;
-  margin-top: 4px;
 }
 
 /* Input bar */
 .input-bar {
   display: flex;
   gap: 8px;
-  padding: 12px;
+  padding: 10px;
   background: rgba(255,255,255,0.08);
 }
 
-/* Laptop enhancement */
-@media (min-width: 768px) {
-  .app {
-    height: 650px;
-  }
+input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+}
+
+button {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: none;
+  background: #22d3ee;
+  color: #020617;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 /* Animation */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile safe */
+@media (max-width: 480px) {
+  .app {
+    height: 100vh;
+    border-radius: 0;
   }
 }
 </style>
