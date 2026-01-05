@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>YourApp</title>
+
+<style>
+.name-area {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+}
+
+.input-area {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+}
+
+button {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: none;
+  background: #3b82f6;
+  color: white;
+  cursor: pointer;
+}
+  body {
+    font-family: "Inter", system-ui, sans-serif;
+    background: linear-gradient(135deg, #0f172a, #020617);
+    color: #e5e7eb;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .app {
+    width: 420px;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+
+  header {
+    padding: 16px;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+    background: rgba(255,255,255,0.08);
+  }
+
+  #messages {
+    flex: 1;
+    padding: 14px;
+    overflow-y: auto;
+  }
+
+  .bubble {
+    max-width: 75%;
+    padding: 10px 12px;
+    border-radius: 14px;
+    margin-bottom: 10px;
+    animation: fadeIn 0.2s ease;
+  }
+
+  .me {
+    margin-left: auto;
+    background: linear-gradient(135deg, #22d3ee, #6366f1);
+    color: #020617;
+  }
+
+  .other {
+    background: rgba(255,255,255,0.15);
+  }
+
+  .name {
+    font-size: 11px;
+    opacity: 0.7;
+    margin-bottom: 2px;
+  }
+
+  .time {
+    font-size: 10px;
+    opacity: 0.5;
+    text-align: right;
+    margin-top: 4px;
+  }
+
+  form {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    background: rgba(255,255,255,0.08);
+  }
+
+  input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+  }
+
+  button {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background: #22d3ee;
+    font-weight: 600;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+   body {
+  margin: 0;
+  background: #0f172a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: system-ui;
+}
+
+.app {
+  width: 420px;
+  height: 600px;
+  background: #020617;
+  color: #e5e7eb;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  padding: 14px;
+  text-align: center;
+  font-weight: bold;
+  background: #1d4ed8;
+}
+
+.name-section {
+  padding: 16px;
+  display: flex;
+  gap: 10px;
+}
+
+.chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.hidden {
+  display: none;
+}
+
+.messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.input-bar {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+}
+  </style>
+</head>
+
+<body>
+  <div class="app">
+
+  <div class="header">
+    Your App Name
+  </div>
+
+  <!-- Username section -->
+  <div id="nameSection" class="name-section">
+    <input id="usernameInput" placeholder="Enter your name" />
+    <button onclick="setName()">Start Chat</button>
+  </div>
+
+  <!-- Chat section -->
+  <div id="chatSection" class="chat hidden">
+    <div id="messages" class="messages"></div>
+
+    <div class="input-bar">
+      <input id="messageInput" placeholder="Type a message..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+</div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const messages = document.getElementById("messages");
+    const input = document.getElementById("messageInput");
+    const usernameInput = document.getElementById("usernameInput");
+
+    let username = "";
+
+    function setName() {
+  if (!usernameInput.value.trim()) {
+    alert("Enter your name");
+    return;
+  }
+
+  username = usernameInput.value.trim();
+
+  document.getElementById("nameSection").style.display = "none";
+  document.getElementById("chatSection").classList.remove("hidden");
+
+  console.log("Username set:", username);
+}
+
+    function sendMessage() {
+      if (!username) return alert("Set your name first");
+      if (!input.value) return;
+
+      socket.emit("chat message", {
+        user: username,
+        text: input.value,
+        time: new Date().toLocaleTimeString()
+      });
+
+      input.value = "";
+    }
+
+    input.addEventListener("keydown", e => {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    socket.on("chat message", msg => {
+      const div = document.createElement("div");
+      div.className = "bubble " + (msg.user === username ? "me" : "other");
+
+      div.innerHTML = `
+        <div class="name">${msg.user}</div>
+        <div class="text">${msg.text}</div>
+        <div class="time">${msg.time}</div>
+      `;
+
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    });
+  </script>
+</body>
+</html>
